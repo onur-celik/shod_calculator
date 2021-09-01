@@ -75,6 +75,7 @@
 
     function SHOD_CALCULATOR() {
       document.querySelectorAll("#results ol li").forEach((v, k) => { v.remove() })
+      document.querySelectorAll("#totals ul li").forEach((v, k) => { v.remove() })
       let params = {
         starting_price: document.querySelector("#s_p").value,
         starting_amount: document.querySelector("#s_a").value,
