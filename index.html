@@ -1,100 +1,107 @@
-<div id="SHODCalculator">
-  <div id="inputs">
-    <input id="s_p" type="number" placeholder="Starting Price" value="1" />
-    <br>
-    <input id="s_a" type="number" placeholder="Starting Amount" value="1000" />
-    <br>
-    <input id="loop" type="number" placeholder="Loop" value="10" />
-    <br>
-    <button onclick="SHOD_CALCULATOR();">CALCULATE</button>
+<html>
+  <head>
+    <title>SHOD Calculator</title>
+  </head>
+  <body>
+    <div id="SHODCalculator">
+    <div id="inputs">
+      <input id="s_p" type="number" placeholder="Starting Price" value="1" />
+      <br>
+      <input id="s_a" type="number" placeholder="Starting Amount" value="1000" />
+      <br>
+      <input id="loop" type="number" placeholder="Loop" value="10" />
+      <br>
+      <button onclick="SHOD_CALCULATOR();">CALCULATE</button>
+    </div>
+    <div id="results">
+      <strong>SHOD Results</strong>
+      <ol></ol>
+    </div>
+    <div id="totals">
+      <strong>SHOD Totals</strong>
+      <ul></ul>
+    </div>
   </div>
-  <div id="results">
-    <strong>SHOD Results</strong>
-    <ol></ol>
-  </div>
-  <div id="totals">
-    <strong>SHOD Totals</strong>
-    <ul></ul>
-  </div>
-</div>
-
-<style>
-  #SHODCalculator {
-    display: flex;
-    width: 100%;
-  }
-
-  #results {
-    background: #00000007;
-    margin-left: 20px;
-    padding: 20px;
-    min-width: 300px;
-  }
-
-  #totals {
-    background: #00000007;
-    margin-left: 20px;
-    padding: 20px;
-    min-width: 300px;
-  }
-
-  input[type="number"] {
-    padding: 10px 20px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    outline: none;
-    border: none;
-    background: #00000007;
-    border: 1px solid #00000010;
-    color: #000000;
-  }
-
-  button {
-    width: 100%;
-    border: none;
-    background: #00000050;
-    border: 1px solid #00000060;
-    border-radius: 6px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-</style>
-
-<script>
-  var CURRENT_PRICE = null;
-  var RESULTS_CONTAINER = document.querySelector("#results ol");
-  var TOTALS_CONTAINER = document.querySelector("#totals ul");
-  var STARTING_VALUE = 0;
-
-
-  function SHOD_CALCULATOR() {
-    document.querySelectorAll("#results ol li").forEach((v, k) => { v.remove() })
-    let params = {
-      starting_price: document.querySelector("#s_p").value,
-      starting_amount: document.querySelector("#s_a").value,
-      loop: document.querySelector("#loop").value
+  
+  <style>
+    #SHODCalculator {
+      display: flex;
+      width: 100%;
     }
-    var TOTAL_LAST_VALUE = params.starting_price * params.starting_amount;
-    STARTING_VALUE = params.starting_price * params.starting_amount;
-    addListItem("#totals ul", `<strong>Starting Value</strong> : ${STARTING_VALUE}`);
-    CURRENT_PRICE = params.starting_price;
-    CURRENT_AMOUNT = params.starting_amount;
+  
+    #results {
+      background: #00000007;
+      margin-left: 20px;
+      padding: 20px;
+      min-width: 300px;
+    }
+  
+    #totals {
+      background: #00000007;
+      margin-left: 20px;
+      padding: 20px;
+      min-width: 300px;
+    }
+  
+    input[type="number"] {
+      padding: 10px 20px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      outline: none;
+      border: none;
+      background: #00000007;
+      border: 1px solid #00000010;
+      color: #000000;
+    }
+  
+    button {
+      width: 100%;
+      border: none;
+      background: #00000050;
+      border: 1px solid #00000060;
+      border-radius: 6px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
+  
+  <script>
+    var CURRENT_PRICE = null;
+    var RESULTS_CONTAINER = document.querySelector("#results ol");
+    var TOTALS_CONTAINER = document.querySelector("#totals ul");
+    var STARTING_VALUE = 0;
 
-    for (var i = 0; i < params.loop; i++) {
-      if (i != 0) { CURRENT_PRICE *= 2 }
-      CURRENT_AMOUNT /= 2;
-      addListItem("#results ol", `${CURRENT_PRICE} - ${CURRENT_AMOUNT}`);
-      TOTAL_LAST_VALUE += STARTING_VALUE;
-      if (i == params.loop - 1) {
-        addListItem("#totals ul", `<strong>Last Value</strong> : ${TOTAL_LAST_VALUE}`);
+
+    function SHOD_CALCULATOR() {
+      document.querySelectorAll("#results ol li").forEach((v, k) => { v.remove() })
+      let params = {
+        starting_price: document.querySelector("#s_p").value,
+        starting_amount: document.querySelector("#s_a").value,
+        loop: document.querySelector("#loop").value
+      }
+      var TOTAL_LAST_VALUE = params.starting_price * params.starting_amount;
+      STARTING_VALUE = params.starting_price * params.starting_amount;
+      addListItem("#totals ul", `<strong>Starting Value</strong> : ${STARTING_VALUE}`);
+      CURRENT_PRICE = params.starting_price;
+      CURRENT_AMOUNT = params.starting_amount;
+
+      for (var i = 0; i < params.loop; i++) {
+        if (i != 0) { CURRENT_PRICE *= 2 }
+        CURRENT_AMOUNT /= 2;
+        addListItem("#results ol", `${CURRENT_PRICE} - ${CURRENT_AMOUNT}`);
+        TOTAL_LAST_VALUE += STARTING_VALUE;
+        if (i == params.loop - 1) {
+          addListItem("#totals ul", `<strong>Last Value</strong> : ${TOTAL_LAST_VALUE}`);
+        }
       }
     }
-  }
 
-  function addListItem(container, value) {
-    var NEW_LI_ELM = document.createElement("li");
-    NEW_LI_ELM.innerHTML = value;
-    document.querySelector(container).appendChild(NEW_LI_ELM);
-  }
-</script>
+    function addListItem(container, value) {
+      var NEW_LI_ELM = document.createElement("li");
+      NEW_LI_ELM.innerHTML = value;
+      document.querySelector(container).appendChild(NEW_LI_ELM);
+    }
+  </script>
+  </body>
+</html>
